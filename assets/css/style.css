@@ -1,0 +1,23 @@
+@font-face {
+   font-family: gil;
+   src: url(../fonts/antique-roman.ttf);
+}
+.bigger{
+	font-family: gil;
+	font-size: 50px;
+	color: black;
+	
+	}
+body{
+	background-image: url("https://upload.wikimedia.org/wikipedia/commons/a/a7/Gilmore_girl_house.JPG");
+	background-repeat: no-repeat;
+	background-size: 100%;
+}
+.container{
+	margin:5%;
+	text-align: center;
+	background:rgba(138, 31, 127, 0.9);
+
+
+
+}
