@@ -111,6 +111,7 @@ function startPage(pageObject){
 	//console.log("adding start button");
 	$("#timer").html("<h1 id='start' >"+start.text+"</h1>")
 
+
 	$("#start").on("click",function(){
 		//go to first question
 		makePage(questions[index]);
