@@ -75,12 +75,17 @@ var question={
 
 
 //the questions array 
-questions = new Array(4);
+questions = new Array(9);
 	function fillQuestions(){
 			questions[0] = new question.makeQuestion('What is the Grandmothers Name?',"Emily" , ["Emily","Susan","Lorelai","Betty"]);
 			questions[1] = new question.makeQuestion('What is the name of the town the show takes place in?',"Stars Hallow" , ["Stars Hallow","Hartford","Woodbury","Litchfield"]);
 			questions[2] = new question.makeQuestion("Which journalist does Rory idolize?","Christiane Amanpour",["Christiane Amanpour","Tom Brokaw","Peter Jennings","Ira Glass"]);
 			questions[3] = new question.makeQuestion("Which major character was originally scripted as a woman?","Luke",["Luke","Kirk","Taylor","Andrew"])
+			questions[4] = new question.makeQuestion("Who was Richard engaged to before Emily?","Pennilyn Lott",["Pennilyn Lott","Sweetie Nelson","Natalie Swope","Constance Betterton"])
+			questions[5] = new question.makeQuestion("To earn extra credit, Chilton students sang the school song in what language?","Latin",["Latin","Greek","Farsi","Mandarin"])
+			questions[6] = new question.makeQuestion("What was Luke’s nickname in high school?","Butch",["Butch","Luke","Trekkie","Town Loner"])
+			questions[7] = new question.makeQuestion("","",["","","",""])
+			questions[8] = new question.makeQuestion("","",[,"","",""])
 		}
 
 //the start and end objects are stored structurly the same as the questions
