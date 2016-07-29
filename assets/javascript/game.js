@@ -40,10 +40,10 @@ things i need
 	answer generator
 */
 
-var correctAnswer=false;
 // timer variable
-var timer; //using for this -> setInterval(decrement, 1000); clearinterval(timer);
-
+var timer; //using for this -> setInterval(decrement, 1000); clearInterval(timer);
+//keep track of the question number
+var index=0;
 
 //question object that will stor the question guesses and answer
 var question={
@@ -51,9 +51,24 @@ var question={
 	answer:"",
 	guesses:[],
 	makeQuestion:function(question,answer,guesses){
+		// console.log("making questions")
 		this.text=question;
 		this.answer=answer;
-		this.guesses=guesses;
+		var tempArray=[]
+		//making the answers display randomly each game
+		// console.log("Randomizing")
+		// console.log("origional tempArray length: "+tempArray.length)
+		// console.log("origional guesses length: "+guesses.length)
+		while (guesses.length>0) {
+			var randNum = Math.floor(Math.random()*guesses.length);
+			// console.log(randNum)
+			tempArray.push(guesses[randNum]);
+			// console.log(tempArray)
+			guesses.splice(randNum, 1);
+			// console.log(guesses)
+		}
+		// console.log("Final tempArray : "+tempArray)
+		this.guesses=tempArray;
 	}
 }
 
@@ -83,62 +98,116 @@ var end = {
 }
 //pages should always be layed out the same way
 // this function will make a generic page
-function choosePage(pageObject){
+function startPage(pageObject){
 	//clear the elements of the page
-	console.log("clearing");
+	//console.log("clearing");
 	clearPage();
-	// populate the time 
-	//if it's start then display the start button
-	console.log("checking if start");
-	if(pageObject.text=="Start"){
-		console.log("adding start button");
-		$("#timer").html("<h1 id='start' >"+start.text+"</h1>")
-	}
-	//if the object is the end make the reset button 
-	else if(pageObject.text=="End"){
-		console.log("adding restart button and displaying correct,incorrect, and unanswered questions");
-	}
-	//console.log("making regular page");
+	//console.log("adding start button");
+	$("#timer").html("<h1 id='start' >"+start.text+"</h1>")
 
+	$("#start").on("click",function(){
+		//go to first question
+		makePage(questions[index]);
+	});
 }
-	
+function endPage(pageObject){
 
-
+	//if the object is the end make the reset button 
+	clearPage();
+	//console.log("adding reset button");
+	$("#answers").html("<h1 id='restart' >"+end.buttonName+"</h1>")
+	$("#question").html("<h2> Correct Answers: "+end.correct+"</h2>");
+	$("#question").append("<h2>Incorrect Answers:"+end.incorrect+"</h2>");
+	$("#question").append("<h2>Unanswered Questions:"+end.unanswered+"</h2>");
+	//console.log("making regular page");
+	console.log("adding restart button and displaying correct,incorrect, and unanswered questions");
+	$("#restart").on("click",function(){
+		
+		end.correct=0;
+		end.incorrect=0;
+		end.unanswered=0;
+		//redo the questions
+		fillQuestions();
+		//restart the game
+		startPage(start);
+	})
+	//console.log(questions)
+}
 //sets up the page for teh question
 function makePage(pageObject){
-	console.log("clearing");
+	//console.log("clearing");
 	clearPage();
-	/*<div id="timer" class="row"></div>
-			<div id="question" class="row"></div>
-			<div id="answers"></div>*/
+	
 	//set a time counter
-	newCounter=$("<h1/>").attr('id', 'count').text(60);
+	newCounter=$("<h1/>").attr('id', 'count').text(20);
 	$("#timer").append(newCounter);
 	//set up the interval decreaser
 	timer =setInterval(function(){
-		tmpVal=Number($("#count").html());
+		var tmpVal=Number($("#count").html());
 		tmpVal--;
 		$("#count").html(tmpVal);
+		if(tmpVal==0){
+			//go to unanswered page
+			end.unanswered++;
+			clearInterval(timer);
+			answerpage("unanswered",pageObject.answer);
+		}
 	}, 1000);
 	//add the question
-	var question=$("<h2/>").attr('id', 'question').text(pageObject.text)
+	var question=$("<h1/>").attr('id', 'question').text(pageObject.text)
 	$("#question").append(question);
 	//add the answers
 	for (var i = 0; i < pageObject.guesses.length; i++) {
-		var guess =$("<h3/>").addClass("guess").text(pageObject.guesses[i]);
+		var guess =$("<h2/>").addClass("guess").text(pageObject.guesses[i]);
 		$("#answers").append(guess);
 	}
 	//creat the onClick function controlling the guesses
 	$(".guess").on("click",function(){
-		if($(this).html()===pageObject.answer)
-		console.log($(this).html())
+		clearInterval(timer);
+		if($(this).html()===pageObject.answer){
+			console.log("correct")
+
+			end.correct++;
+			//make the correct answer page
+			answerpage("correct",pageObject.answer);
+		}
+		else{
+			//console.log("incorrect")
+			end.incorrect++;
+			answerpage("incorrect",pageObject.answer);	
+		}
 	})
 }
+  /*<div id="timer" class="row"></div>
+	<div id="question" class="row"></div>
+	<div id="answers"></div>*/
+function answerpage(ansType,answer){
+	var tmpVal=3;
+	timer =setInterval(function(){
+		tmpVal--;
+		if(tmpVal<0){
+			//go to next question
+			clearInterval(timer);
+			if(index<questions.length-1){
+				makePage(questions[++index]);
+			}
+			else{
+				endPage(end);
+			}
+		}
+	}, 1000);
+	if(ansType=="correct"){
+		$("#question").html("<h1>Correct!</h1>");
+	}else if(ansType=="incorrect"){
+		$("#question").html("<h1>Incorrect!</h1>");
+	}
+	else{
+		$("#question").html("<h1>Oops, ran out of time!</h1>");
+	}
+	$("#answers").html("<h2>The correct answer was "+answer+".</h2>")
+}
 
-/*function questionResult(bool){
-
-}*/
-
+//reset the page
 function clearPage(){
 	clearInterval(timer);
 	$("#timer").empty();
@@ -149,13 +218,6 @@ function clearPage(){
 $(document).ready(function() {
 	fillQuestions();
 	//make the start page
-	choosePage(start);
+	startPage(start);
 	//when the starbutton is clicked 
-	$("#start").on("click",function(){
-		//go to first question
-		makePage(questions[0]);
-	})
-
-	//console.log(questions)
-
 });
