@@ -75,7 +75,7 @@ var question={
 
 
 //the questions array 
-questions = new Array(9);
+questions = new Array(10);
 	function fillQuestions(){
 			questions[0] = new question.makeQuestion('What is the Grandmothers Name?',"Emily" , ["Emily","Susan","Lorelai","Betty"]);
 			questions[1] = new question.makeQuestion('What is the name of the town the show takes place in?',"Stars Hallow" , ["Stars Hallow","Hartford","Woodbury","Litchfield"]);
@@ -83,9 +83,10 @@ questions = new Array(9);
 			questions[3] = new question.makeQuestion("Which major character was originally scripted as a woman?","Luke",["Luke","Kirk","Taylor","Andrew"])
 			questions[4] = new question.makeQuestion("Who was Richard engaged to before Emily?","Pennilyn Lott",["Pennilyn Lott","Sweetie Nelson","Natalie Swope","Constance Betterton"])
 			questions[5] = new question.makeQuestion("To earn extra credit, Chilton students sang the school song in what language?","Latin",["Latin","Greek","Farsi","Mandarin"])
-			questions[6] = new question.makeQuestion("What was Luke’s nickname in high school?","Butch",["Butch","Luke","Trekkie","Town Loner"])
-			questions[7] = new question.makeQuestion("","",["","","",""])
-			questions[8] = new question.makeQuestion("","",[,"","",""])
+			questions[6] = new question.makeQuestion("What was the nickname Luke had in high school?","Butch",["Butch","Luke","Trekkie","Town Loner"])
+			questions[7] = new question.makeQuestion("Which classic film has a character named Lorelei Lee?","Gentlemen Prefer Blondes",["Gentlemen Prefer Blondes","Casablanca","An American in Paris","Brigadoon"])
+			questions[8] = new question.makeQuestion("Which day of the year does Luke have his dark day?","November 30",["November 30","September 30","October 30","December 30"])
+			questions[9] = new question.makeQuestion("Which Glee star appears as a nurse in Season 1?","Jane Lynch",["Jane Lynch","Matthew Morrison","Jayma Mays","Patrick Gallagher"])
 		}
 
 //the start and end objects are stored structurly the same as the questions
@@ -187,7 +188,7 @@ function makePage(pageObject){
 	<div id="question" class="row"></div>
 	<div id="answers"></div>*/
 function answerpage(ansType,answer){
-	var tmpVal=3;
+	var tmpVal=2;
 	timer =setInterval(function(){
 		tmpVal--;
 		if(tmpVal<0){
